@@ -3,15 +3,19 @@ const url = "/infraccion/api/infracciones";
 function save(bandera) {
     $("#modal-update").modal("hide")
     let id = $("#guardar").data("id");    
-    let categoria = {
+    let infracciones = {
         id: id,
-        nombre : $("#nombre").val()
+        dni : $("#dni").val(),
+        fecha : $("#fecha").val(),
+        placa : $("#placa").val(),
+        infraccion :$("#infraccion").val(),
+        descripcion:$("#descripcion").val()
     }
     let metodo = bandera == 1 ? "POST" : "PUT";
     $.ajax({
         type: metodo,
         url: url,
-        data: JSON.stringify(categoria),
+        data: JSON.stringify(infracciones),
         dataType: "text",
         contentType: "application/json",
         cache: false,
@@ -28,7 +32,7 @@ function save(bandera) {
 	            getTabla();
 	            Swal.fire({
 	                icon: 'success',
-	                title: 'Se ha '+texto+' la categoria',
+	                title: 'Se ha '+texto+' la infraccion',
 	                showConfirmButton: false,
 	                timer: 1500
 	            })
@@ -64,18 +68,7 @@ function deleteFila(id) {
 
 }
 
-/*
-function getTabla() {
-    let t = $("#tablaCategorias").DataTable();
-    t.clear().draw(false);
-    let botonera = '<button type="button" class="btn btn-warning btn-sm editar"><i class="fas fa-edit"></i> </button>' +
-        '<button type="button" class="btn btn-danger btn-sm eliminar"><i class="fas fa-trash"></i></button>';
 
-    t.row.add([1, "Categoria 1", botonera]);
-    t.row.add([2, "Categoria 2", botonera]);
-    t.draw(false);    
-}
-*/
 
 function getTabla() {
     $.ajax({
@@ -85,7 +78,7 @@ function getTabla() {
         cache: false,
         success: function (data) {
 
-            let t = $("#tablaCategorias").DataTable();
+            let t = $("#tablaInfracciones").DataTable();
             t.clear().draw(false);
 
             let botonera = '<button type="button" class="btn btn-warning btn-sm editar"><i class="fas fa-edit"></i> </button>' +
@@ -94,7 +87,7 @@ function getTabla() {
             let js = JSON.parse(data);
 
             $.each(js, function (a, b) {
-                t.row.add([b.id, b.nombre, botonera]);
+                t.row.add([b.id, b.dni, b.fecha, b.placa, b.infraccion,b.descripcion, botonera]);
 
             });
 
@@ -114,8 +107,12 @@ function getFila(id) {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            $("#modal-title").text("Editar Categoria");
-            $("#nombre").val(data.nombre);
+            $("#modal-title").text("Editar Infraccion");
+            $("#dni").val(data.dni);
+            $("#fecha").val(data.fecha);
+            $("#placa").val(data.placa);
+            $("#infraccion").val(data.infraccion);
+            $("#descripcion").val(data.descripcion);
             $("#guardar").data("id", data.id);
             $("#guardar").data("bandera", 0);
             $("#modal-update").modal("show");
@@ -135,7 +132,7 @@ function clear() {
 
 $(document).ready(function () {
 
-    $("#tablaCategorias").DataTable({
+    $("#tablaInfracciones").DataTable({
         language: {
             lengthMenu: "Mostrar MENU registros",
             zeroRecords: "No se encontraron coincidencias",
@@ -150,9 +147,13 @@ $(document).ready(function () {
             },
         },
         columnDefs: [
-            { targets: 0, width: "10%" },
-            { targets: 1, width: "80%" },
-            { targets: 2, orderable: false, width: "10%" }
+            { targets: 0, width: "5%" },
+            { targets: 1, width: "20%" },
+            { targets: 2, width: "20%" },
+            { targets: 3, width: "10%" },
+            { targets: 4, width: "20%" },
+            { targets: 5, width: "20%" },
+            { targets: 6, orderable: false, width: "15%" }
         ],
     });
 
@@ -171,7 +172,7 @@ $(document).ready(function () {
     $(document).on('click', '.eliminar', function () {
         Swal.fire({
             title: 'Eliminar Categoria',
-            text: "¿Esta seguro de querer eliminar esta categoria?",
+            text: "¿Esta seguro de querer eliminar esta infraccion?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

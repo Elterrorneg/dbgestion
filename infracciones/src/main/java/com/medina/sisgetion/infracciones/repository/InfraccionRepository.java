@@ -6,5 +6,5 @@ import com.medina.sisgetion.infracciones.entity.Infracciones;
 
 
 public interface InfraccionRepository extends JpaRepository<Infracciones, Integer>{
-	public Infracciones findByNombre(String nombre);
+	public Infracciones findByDni(String dni);
 }

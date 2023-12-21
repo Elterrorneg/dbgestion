@@ -56,7 +56,11 @@ public class InfraccionServiceImpl implements InfraccionService {
 	public Infracciones update(Infracciones obj) {
 		try {
 			Infracciones infraccionDb = findById(obj.getId());
-			infraccionDb.setNombre(obj.getNombre());
+			infraccionDb.setDni(obj.getDni());
+			infraccionDb.setFecha(obj.getFecha());
+			infraccionDb.setPlaca(obj.getPlaca());
+			infraccionDb.setInfraccion(obj.getInfraccion());
+			infraccionDb.setDescripcion(obj.getDescripcion());
 			return repository.save(infraccionDb);
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -82,9 +86,9 @@ public class InfraccionServiceImpl implements InfraccionService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Infracciones findByNombre(String nombre) {
+	public Infracciones findByDni(String dni) {
 		try {
-			return repository.findByNombre(nombre);
+			return repository.findByDni(dni);
 		} catch (Exception e) {
 
 			log.error(e.getMessage());

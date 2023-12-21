@@ -34,8 +34,6 @@ public class Infracciones {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@Column(unique = true,nullable = false, length = 100)
-	private String nombre;
 	@Column(name="dni",unique = true,nullable = false, length = 8)
 	private String dni;
 	
